@@ -17,8 +17,16 @@ require.config({
     }
 });
 
-require([
-    'backbone'
-], function (Backbone) {
-    Backbone.history.start();
+require(['backbone', 'core', 'router'], function (Backbone, core, Router) {
+
+    var r = new Router();
+    
+    $(function () {
+        
+        // core setup
+        core.setup();
+        // テンプレートのセットアップ
+
+        Backbone.history.start();
+    });
 });
