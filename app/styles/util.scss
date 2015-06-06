@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+$spaceL: 40px;
+$spaceM: 20px;
+$spaceS: 10px;
+
+
+// Layout
+.absolute { position: absolute; }
+.relative { position: relative; }
+
+.mtl { margin-top: $spaceL; }
+.mtm { margin-top: $spaceM; }
+.mts { margin-top: $spaceS; }

@@ -1,94 +1,231 @@
 <!doctype html>
-<html class="no-js" lang="">
-    <head>
-        <meta charset="utf-8">
-        <title>ADVTool</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <!-- build:css(.tmp) styles/main.css -->
-        <link rel="stylesheet" href="styles/main.css">
-        <!-- endbuild -->
-        <!-- build:js scripts/vendor/modernizr.js -->
-        <script src="bower_components/modernizr/modernizr.js"></script>
-        <!-- endbuild -->
-    </head>
-    <body>
-        <!--[if lt IE 10]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+<html class="no-js" lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>ADVTool</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+    <!-- build:js scripts/vendor/modernizr.js -->
+    <script src="bower_components/modernizr/modernizr.js"></script>
+    <!-- endbuild -->
+</head>
+<body>
+    <!--[if lt IE 10]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
 
+    <div id="app" class="container">
 
-        <div class="container">
-            <div class="header">
-                <ul class="nav nav-pills pull-right">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-                <h3 class="text-muted">ADVTool</h3>
-            </div>
-
-            <div class="jumbotron">
-                <h1>'Allo, 'Allo!</h1>
-                <p class="lead">Always a pleasure scaffolding your apps.</p>
-                <p><a class="btn btn-lg btn-success" href="#">Splendid!</a></p>
-            </div>
-
-            <div class="row text-left">
-                <div class="col-md-offset-4">
-                    <h2>Now Try,</h2>
-                    <h4><b>yo backbone:router</b> &lt;router&gt;</h4>
-                    <h4><b>yo backbone:collection</b> &lt;collection&gt;</h4>
-                    <h4><b>yo backbone:model </b> &lt;model&gt;</h4>
-                    <h4><b>yo backbone:view </b> &lt;view&gt;</h4>
+        <div class="page-header">
+            <h1>ADV-Tool</h1>
+        </div>
+        
+        <!--
+        # Preview
+        -->
+        <div class="row">
+            <div id="js-preview" class="preview relative">
+                <div id="js-preview-bg" class="review-bg absolute"></div>
+                <div id="js-preview-stage" class="preview-stage absolute">
+                    <ul id="js-preview-chara"></ul>
                 </div>
+                <div id="js-preview-still" class="preview-still absolute"></div>
+                <div id="js-preview-textPanel" class="preview-textPanel absolute"></div>
+                <div id="js-preview-effect" class="preview-effect absolute"></div>
             </div>
-
-            <div class="row marketing">
-                <div class="col-lg-6">
-                    <h4>HTML5 Boilerplate</h4>
-                    <p>HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.</p>
-
-                    <h4>Bootstrap</h4>
-                    <p>Sleek, intuitive, and powerful mobile first front-end framework for faster and easier web development.</p>
-
-                    <h4>Modernizr</h4>
-                    <p>Modernizr is an open-source JavaScript library that helps you build the next generation of HTML5 and CSS3-powered websites.</p>
-
-                </div>
-                <div class="col-lg-6">
-                    <h4>Backbone.js</h4>
-                    <p>Backbone.js gives structure to web applications by providing models, collections, views and connects it all to your existing API over a RESTful JSON interface.</p>
-
-                    <h4>Lodash.js</h4>
-                    <p>A utility library delivering consistency, customization, performance, & extras. </p>
-
-                    <h4>RequireJS</h4>
-                    <p>RequireJS is a JavaScript file and module loader. It is optimized for in-browser use, but it can be used in other JavaScript environments, like Rhino and Node.</p>
-
-                </div>
-            </div>
-
-            <div class="footer">
-                <p>♥ from the Yeoman team</p>
-            </div>
-
         </div>
 
+        <!--
+        # Register
+        -->
+        <div id="js-register" class="row">
+            <form class="form-inline mts">
+                <select class="js-select form-control input-sm">
+                        <option value="1">キャラクター１</option>
+                        <option value="2">キャラクター２</option>
+                        <option value="3">キャラクター３</option>
+                </select>
+                <button type="button" class="js-add btn btn-default btn-sm">追加</button>
+            </form>
+            <ul class="js-list"></ul>
+        </div>
+        
+        <!-- 
+        # Scene Index
+        -->
+        <div class="row">
+            <ul id="js-sceneIndexList" class="nav nav-tabs">
+                <li class="js-selectScene active" data-index="1"><a>1</a></li>
+            </ul>
+            <div class="col-md-2 col-md-offset-10">
+                <button id="js-addScene" class="btn  btn-info btn-xs mts">追加</button>
+                <button id="js-removeScene" class="btn btn-danger btn-xs mts">削除</button>
+            </div>
+        </div>
 
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X');ga('send','pageview');
-        </script>
+        <!--
+        # Edit
+        -->
+        <div class="row">
+            <!-- Edit: Character -->
+            <div class="col-md-4">
+                <strong>キャラクター</strong>
+                <ul id="js-edit-charaList"></ul>
+            </div>
+            
+            <!-- Edit: Stage -->
+            <div class="col-md-4">
+                
+                <label>Background</label>
+                <select class="js-background form-control input-sm">
+                    <option value="1_1">1_1</option>
+                    <option value="1_2">1_2</option>
+                    <option value="1_3">1_3</option>
+                </select>
 
-        <!-- build:js scripts/main.js -->
-        <script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>
-        <!-- endbuild -->
+                <label>Still</label>
+                <select class="js-background form-control input-sm">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                </select>
+                
+                <label>Camera</label>
+                <select class="js-background form-control input-sm">
+                    <option data-value="left1"   >左１</option>
+                    <option data-value="left2"   >左２</option>
+                    <option data-value="right1"  >右１</option>
+                    <option data-value="right2"  >右２</option>
+                    <option data-value="center"  >中央</option>
+                    <option data-value="shake"   >画面を揺らす</option>
+                    <option data-value="lookup"  >見上げる（ワイド背景のみ）</option>
+                    <option data-value="lookdown">視線を下げる（ワイド背景のみ）</option>
+                </select>
+
+                <label>Effect</label>
+                <select class="js-background form-control input-sm">
+                    <option data-value="NONE">なし</option>
+                    <option data-value="BLACK">ブラック</option>
+                    <option data-value="WHITE">ホワイト</option>
+                </select>
+            </div>
+                
+            <!-- Edit: Word -->
+            <div class="js-edit-textPanel col-md-4">
+                <label>名前</label>
+                <div class="form-group form-inline">
+                    <select class="js-textPanel-name form-control input-sm">
+                        <option data-type="USER" data-name="[名前]">わたし</option>
+                        <option data-id="{{:id}}" data-type="CHARACTER" data-name="{{:name}}">{{:name}}</option>
+                        <option data-type="CHARACTER" data-name="？？？">？？？</option>
+                        <option data-type="NONE" data-name="">なし</option>
+                        <option data-type="OUTSIDER" data-name="">カスタム</option>
+                    </select>
+                    <input class="js-textPanel-name_custom form-control input-sm" type="text" placeholder="カスタムの名前">
+                </div>
+                
+                <!-- // セリフ -->
+                <div class="form-group">
+                    <label>セリフ</label>
+                    <textarea class="js-textPanel-text form-control" rows="3"></textarea>
+                </div>
+
+                <!-- // 操作 -->
+                <div class="form-group">
+                    <label>操作</label>
+                    <select class="js-textPanel-visible form-control input-sm">
+                        <option>なし</option>
+                        <option data-key="show" data-value="null">表示させる</option>
+                        <option data-key="hide" data-value="null">非表示にする</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>ddorange</p>
+        </div>
+    </div>
+<div id="contents"></div>
+
+
+<!-- tempalte -->
+<script type="text/x-handlebars-template" data-template-name="tp_chara">
+    <li>
+        <p>{{profileId}}</p>
+        <p>{{base}}</p>
+        <p>{{blink}}</p>
+        <button type="button" class="js-remove btn btn-danger btn-sm">X</button>
+    </li>
+</script>
+
+<script type="text/x-handlebars-template" data-template-name="tp_editChara">
+<div class="panel panel-info">
+    <div class="panel-heading">キャラ名</div>
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <!-- transform -->
+            <div class="form-group">
+                <label class="col-sm-5 control-label">Transform</label>
+                <div class="col-sm-5">
+                    <select class="form-control input-sm">
+                            <option value="0">show</option>
+                            <option value="0">hide</option>
+                            <option value="0">fadeIn</option>
+                            <option value="0">fadeOut</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- position -->
+            <div class="form-group">
+                <label class="col-sm-5 control-label">Positon</label>
+                <div class="col-sm-5">
+                    <select class="form-control input-sm">
+                            <option value="0">0</option>
+                            <option value="-100">-100</option>
+                            <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- skin -->
+            <div class="form-group">
+                <label class="col-sm-5 control-label">Skin</label>
+                <div class="col-sm-5">
+                    <select class="form-control input-sm">
+                            <option value="0">0</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- action -->
+            <div class="form-group">
+                <label class="col-sm-5 control-label">Action</label>
+                <div class="col-sm-5">
+                    <select class="form-control input-sm">
+                            <option value="0">0</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- balloon -->
+            <div class="form-group">
+                <label class="col-sm-5 control-label">Balloon</label>
+                <div class="col-sm-5">
+                    <select class="form-control input-sm">
+                            <option value="0">0</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</script>
+
+<script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>
 </body>
 </html>
