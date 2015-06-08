@@ -1,17 +1,11 @@
-/**
- * @name model.js
- * @author ddorange
- * @overview App Router
- */
 define(function (require, exports, module) {
 
     'use strict';
 
     var Backbone = require('backbone'),
-        AppController = require('appController');
+        app  = require('app');
 
-
-    var app;
+    app.setup();
 
     /**
      * ADV Router class
@@ -22,12 +16,14 @@ define(function (require, exports, module) {
      * @see Backbone.Router
      */
     var RADV = Backbone.Router.extend({
+        
+
         routes: {
             /**
              * 初期化
              */
             '': function () {
-                app = new AppController();
+                
             },
             /**
              * 任意のシーンを表示する
