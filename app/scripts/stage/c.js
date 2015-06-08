@@ -1,8 +1,3 @@
-/**
- * @name model.js
- * @author ddorange
- * @overview model of scene
- */
 define(function (require, exports, module) {
 
     'use strict';
@@ -12,7 +7,7 @@ define(function (require, exports, module) {
     var MStage = Backbone.Model.extend({
         defaults: function () {
             return  {
-                camera: 0,
+                camera: 'CENTER',
                 bg: null,
                 effect: null,
                 still: null,

@@ -2,10 +2,7 @@ define(function (require, exports, module) {
 
     'use strict';
 
-    var Backbone = require('backbone'),
-        app  = require('app');
-
-    app.setup();
+    var Backbone = require('backbone');
 
     /**
      * ADV Router class
@@ -16,20 +13,18 @@ define(function (require, exports, module) {
      * @see Backbone.Router
      */
     var RADV = Backbone.Router.extend({
-        
-
         routes: {
             /**
              * 初期化
              */
             '': function () {
-                
+                console.log('router: root');
             },
             /**
              * 任意のシーンを表示する
              */
             'scene_:index': function (index) {
-                app.showScene(index);
+                console.log('router: scene_' + index);
             }
         }
     });

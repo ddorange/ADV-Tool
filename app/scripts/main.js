@@ -17,12 +17,13 @@ require.config({
     }
 });
 
-require(['backbone', 'core', 'util', 'router'], function (Backbone, core, util, Router) {
+require(['backbone', 'core', 'util', 'app'], function (Backbone, core, util, app) {
 
     $(function () {
         core.setup();
         util.setup();
-        var r = new Router();
-        Backbone.history.start();
+        app.setup();
+        // var r = new Router();
+        // Backbone.history.start();
     });
 });

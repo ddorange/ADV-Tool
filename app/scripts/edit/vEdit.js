@@ -1,8 +1,3 @@
-/**
- * @name model.js
- * @author ddorange
- * @overview model of scene
- */
 define(function (require, exports, module) {
 
     'use strict';

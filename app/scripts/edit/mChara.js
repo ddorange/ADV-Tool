@@ -1,8 +1,3 @@
-/**
- * @name model.js
- * @author ddorange
- * @overview model of scene
- */
 define(function (require, exports, module) {
 
     'use strict';
@@ -10,7 +5,7 @@ define(function (require, exports, module) {
     var Backbone = require('backbone');
 
 
-    var MScene = Backbone.Model.extend({
+    var SceneCharaModel = Backbone.Model.extend({
         defaults: function () {
             return  {
                 visible:    false,
@@ -49,25 +44,27 @@ define(function (require, exports, module) {
         }
     });
 
-    var CScene = Backbone.Collection.extend({
-        model: MScene
-    });
 
-
-    var MChara = Backbone.Model.extend({
+    var SceneModel = Backbone.Model.extend({
         defaults: function () {
             return {
-                id: '',
-                profileId: 0,
-                base: 'base',
-                blink: 'blink',
-                scene: new CScene()
+                stage: new SceneStageModel(),
+                word:  new SceneWordModel()
             };
+        },
+        setChara: function (charas) {
+            var self = this;
+
+            _.each(charas, function (chara) {
+                self.set('chara_' + chara.profleId, new SceneCharaModel());
+            });
         }
     });
-    
-    var CChara = Backbone.Collection.extend({ model: MChara });
 
-    return CChara;
+    var SceneCollection = Backbone.Collection.extend({
+        model: SceneModel
+    });
+
+    return SceneCharaModel;
 
 });

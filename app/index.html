@@ -30,7 +30,7 @@
         <div class="row">
             <div id="js-preview" class="preview relative">
                 <div id="js-preview-bg" class="review-bg absolute"></div>
-                <div id="js-preview-stage" class="preview-stage absolute">
+                <div id="js-preview-camera" class="preview-stage absolute">
                     <ul id="js-preview-chara"></ul>
                 </div>
                 <div id="js-preview-still" class="preview-still absolute"></div>
@@ -57,20 +57,18 @@
         <!-- 
         # Scene Index
         -->
-        <div class="row">
-            <ul id="js-sceneIndexList" class="nav nav-tabs">
-                <li class="js-selectScene active" data-index="1"><a>1</a></li>
-            </ul>
-            <div class="col-md-2 col-md-offset-10">
-                <button id="js-addScene" class="btn  btn-info btn-xs mts">追加</button>
-                <button id="js-removeScene" class="btn btn-danger btn-xs mts">削除</button>
+        <div id="js-sceneIndex" class="row">
+            <div class="">
+                <button id="js-addScene" class="btn  btn-info btn-sm mts">シーンを追加</button>
+                <button id="js-removeScene" class="btn btn-danger btn-sm mts">シーンを削除</button>
             </div>
+            <ul id="js-sceneIndexList" class="nav nav-tabs mtm"></ul>
         </div>
 
         <!--
         # Edit
         -->
-        <div class="row">
+        <div class="row mtm">
             <!-- Edit: Character -->
             <div class="col-md-4">
                 <strong>キャラクター</strong>
@@ -78,68 +76,68 @@
             </div>
             
             <!-- Edit: Stage -->
-            <div class="col-md-4">
+            <div id="js-stage" class="col-md-4">
                 
                 <label>Background</label>
-                <select class="js-background form-control input-sm">
+                <select class="js-select form-control input-sm" name="bg">
                     <option value="1_1">1_1</option>
                     <option value="1_2">1_2</option>
                     <option value="1_3">1_3</option>
                 </select>
 
                 <label>Still</label>
-                <select class="js-background form-control input-sm">
+                <select class="js-select form-control input-sm" name="still">
                     <option value="1">1</option>
                     <option value="2">2</option>
                 </select>
                 
                 <label>Camera</label>
-                <select class="js-background form-control input-sm">
-                    <option data-value="left1"   >左１</option>
-                    <option data-value="left2"   >左２</option>
-                    <option data-value="right1"  >右１</option>
-                    <option data-value="right2"  >右２</option>
-                    <option data-value="center"  >中央</option>
-                    <option data-value="shake"   >画面を揺らす</option>
-                    <option data-value="lookup"  >見上げる（ワイド背景のみ）</option>
-                    <option data-value="lookdown">視線を下げる（ワイド背景のみ）</option>
+                <select class="js-select form-control input-sm" name="camera">
+                    <option value="left1"   >左１</option>
+                    <option value="left2"   >左２</option>
+                    <option value="right1"  >右１</option>
+                    <option value="right2"  >右２</option>
+                    <option value="center"  >中央</option>
+                    <option value="shake"   >画面を揺らす</option>
+                    <option value="lookup"  >見上げる（ワイド背景のみ）</option>
+                    <option value="lookdown">視線を下げる（ワイド背景のみ）</option>
                 </select>
 
                 <label>Effect</label>
-                <select class="js-background form-control input-sm">
-                    <option data-value="NONE">なし</option>
-                    <option data-value="BLACK">ブラック</option>
-                    <option data-value="WHITE">ホワイト</option>
+                <select class="js-select form-control input-sm" name="effect">
+                    <option value="NONE">なし</option>
+                    <option value="BLACK">ブラック</option>
+                    <option value="WHITE">ホワイト</option>
                 </select>
             </div>
                 
             <!-- Edit: Word -->
-            <div class="js-edit-textPanel col-md-4">
+            <div id="js-word" class="col-md-4">
                 <label>名前</label>
                 <div class="form-group form-inline">
-                    <select class="js-textPanel-name form-control input-sm">
-                        <option data-type="USER" data-name="[名前]">わたし</option>
-                        <option data-id="{{:id}}" data-type="CHARACTER" data-name="{{:name}}">{{:name}}</option>
-                        <option data-type="CHARACTER" data-name="？？？">？？？</option>
-                        <option data-type="NONE" data-name="">なし</option>
-                        <option data-type="OUTSIDER" data-name="">カスタム</option>
+                    <select id="js-word-name" name="type" class="js-select form-control input-sm">
+                        <option value="USER">わたし</option>
+                        <option value="id">{{name}}</option>
+                        <option value="UNKNOEN">？？？</option>
+                        <option value="NONE">なし</option>
+                        <option value="CUSTOM">カスタム</option>
                     </select>
-                    <input class="js-textPanel-name_custom form-control input-sm" type="text" placeholder="カスタムの名前">
+                    <input id="js-word-name-custom" class="form-control input-sm" type="text" placeholder="カスタムの名前">
                 </div>
                 
                 <!-- // セリフ -->
                 <div class="form-group">
                     <label>セリフ</label>
-                    <textarea class="js-textPanel-text form-control" rows="3"></textarea>
+                    <textarea id="js-word-text" name="text" class="js-select form-control" rows="3"></textarea>
                 </div>
 
                 <!-- // 操作 -->
                 <div class="form-group">
                     <label>操作</label>
-                    <select class="js-textPanel-visible form-control input-sm">
-                        <option>なし</option>
-                        <option data-key="show" data-value="null">表示させる</option>
-                        <option data-key="hide" data-value="null">非表示にする</option>
+                    <select id="js-word-transform" name="transform" class="js-select form-control input-sm">
+                        <option value="null">なし</option>
+                        <option value="show">表示させる</option>
+                        <option value="hide">非表示にする</option>
                     </select>
                 </div>
             </div>
@@ -153,6 +151,9 @@
 
 
 <!-- tempalte -->
+<script type="text/x-handlebars-template" data-template-name="tp_sceneIndexListItem">
+    <li class="js-selectScene" data-index="{{index}}"><a>{{index}}</a></li>
+</script>
 <script type="text/x-handlebars-template" data-template-name="tp_chara">
     <li>
         <p>{{profileId}}</p>

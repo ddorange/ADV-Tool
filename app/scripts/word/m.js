@@ -1,27 +1,21 @@
-/**
- * @name model.js
- * @author ddorange
- * @overview model of scene
- */
 define(function (require, exports, module) {
 
     'use strict';
 
     var Backbone = require('backbone');
 
-    var MWord = Backbone.Model.extend({
+    var WordModel = Backbone.Model.extend({
         defaults: function () {
             return  {
+                index: 0,
                 name: 'NONE',
                 type: 'NONE',
-                text: '',
+                text: 'なし',
                 transform: null
             };
         }
     });
 
-    var CWord = Backbone.Collection.extend({ model: MWord });
-
-    return CWord;
+    return WordModel;
 
 });

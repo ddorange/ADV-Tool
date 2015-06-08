@@ -2,93 +2,132 @@ define(function (require, exports, module) {
 
     'use strict';
 
-    var $ = require('jquery'),
-        Backbone        = require('backbone'),
-        Handlebars = require('handlebars'),
-        core            = require('core');
-        // CharaController = require('chara/index'),
-        // StageController = require('stage/index');
-        // WordController  = require('word/index');
+    var core       = require('core');
+    var IndexView  = require('index/v');
 
-    var WordCollection = require('word/c');
+    var StageModel = Backbone.Model;
+    var StageView  = Backbone.View;
+
     var WordView  = require('word/v');
+    var WordModel = require('word/m');
 
 
-    var app = {
-        
-        currentIndex: 0,
-        c: {},
+    var app = _.extend({
+
+        m: {},
+        c: {
+            chara: {},
+            charaScene: {},
+            stage: null,
+            word: null
+        },
         v: {},
+
+        sceneNum: 0,
+        currentIndex: 0,
         
         setup: function () {
             // データの読み込み
-            var data = core.data;
+            // TODO: setup前の値が入る
+            var data = core.getData() || {};
 
+
+            // Collectionの初期化
+            this.c.scene = new Backbone.Collection();
             // this.c.chara = new CharaController(data.stage.characters);
-            // this.c.stage = new StageController();
-            
-            this.c.word = new WordCollection();
+            this.c.stage = new Backbone.Collection();
+            this.c.word  = new Backbone.Collection();
+
+            // Viewの初期化
+            this.v.idnex = new IndexView({
+                collection: this.c.scene
+            });
+            this.stage = new StageView({
+                el: '#js-stage',
+                collection: this.c.stage
+            });
             this.v.word = new WordView({
-                el: '#js-word',
                 collection: this.c.word
             });
 
-            this.v.app = new AppView();
+            // indexViewはコントローラーとViewを分離しているのでイベントをハンドリング
+            this.listenTo(this.v.idnex, 'ADD_SCENE',    this.addScene);
+            this.listenTo(this.v.idnex, 'REMOVE_SCENE', this.removeScene);
+            this.listenTo(this.v.idnex, 'SELECT_SCENE', this.showScene);
         },
+        /**
+         *
+         */
         showScene: function (index) {
-            console.log(index);
+            var scene = this.c.scene.at(index);
+
+            console.log(scene.attributes);
+            // this.v.stage.render(this.c.word.get(scene.get('stage')));
+            this.v.word.render(this.c.word.get(scene.get('word')));
         },
+        /**
+         *
+         */
         addScene: function (index) {
-            this.c.word.add({});
-            this.v.word.render(this.currentIndex);
-            this.currentIndex++;
-        },
-        removeScene: function (index) {
-            index = index || this.currentIndex;
-            console.log('removeScene:' + index);
-        },
-    };
+            console.log('addScene:' + index);
 
+            var scene = this.createScene();
 
-    var AppView = Backbone.View.extend({
-        
-        el: '#app',
-        $sceneIndexList: 0,
-        templateName: 'tp_sceneIndexListItem',
-        events: {
-            'click .js-selectScene': 'onSelect',
-            'click #js-addScene': 'onAdd',
-            'click #js-removeScene': 'onRemove'
-        },
-        
-        initialize: function () {
-            this.$sceneIndexList = $('js-sceneIndexList');
-        },
-        addIndexListItem: function (index) {
-            var html = (Handlebars.templates[this.templateName]({index: index}));
+            this.c.stage.add(scene.word);
+            this.c.word.add(scene.word);
+            this.c.scene.add({
+                stage: scene.word.cid,
+                word: scene.word.cid
+            }, { at: index });
             
-            this.$el.append(html);
+            console.log(this.c.scene);
         },
         /**
-         * シーンを追加する
+         *
          */
-        onAdd: function () {
-            app.addScene();
-            this.addIndexListItem(app.currentIndex);
-        },
-        /**
-         * シーンを削除する
-         */
-        onRemove: function () {
-            app.removeScene();
-        },
-        /**
-         * シーンデータを保存する
-         */
-        onSave: function () {
+        removeScene: function (index) {
+            console.log('removeScene:' + index);
+            
+            var m = this.c.scene.models[index];
 
+            this.c.stage.remove(m.get('stage'));
+            this.c.word.remove(m.get('word'));
+            this.c.scene.remove(m);
+        },
+        /**
+         *
+         */
+        createScene: function (stage, word) {
+            var self = this;
+
+            // キャラクターシーンのModelを登録
+            // this.c.chara.each(function (model) {
+            //     var key = model.get('profileId') + '_' + model.get('base'),
+            //         charaScene = new CharaSceneModel();
+
+            //     self.c.charaScene[key] = charaScene;
+            //     scene[key] = charaScene.cid;
+            // });
+
+            return {
+                stage: new StageModel(stage),
+                word: new WordModel(word)
+            };
+        },
+        publishScene: function () {
+            var self = this,
+                data = [];
+            
+            this.c.scene.each(function (model) {
+                data.push(self.c.word.get(model.get('word')).attributes);
+            });
+
+            return JSON.stringify(data);
         }
-    });
+
+    }, Backbone.Events);
+
+    window.app = app;
 
     return  app;
 

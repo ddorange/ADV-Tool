@@ -3,8 +3,7 @@ define(function (require, exports, module) {
     'use strict';
 
     var CharaCollection  = require('chara/c'),
-        RegisterListView = require('chara/vRegister'),
-        EditListView     = require('chara/vEdit');
+        RegisterListView = require('chara/vRegister');
 
     /**
      * Chara Contoroller Class
@@ -17,7 +16,7 @@ define(function (require, exports, module) {
         c: null,
         v: {},
 
-        init: function() {
+        init: function(data) {
             this.c = new CharaCollection();
 
             this.v.register = new RegisterListView({
@@ -25,10 +24,7 @@ define(function (require, exports, module) {
                 collection: this.c
             });
 
-            this.v.edit = new EditListView({
-                el: '#js-edit-charaList',
-                collection: this.c
-            });
+            this.c.reset(data);
         },
         getCurrentAllCharactersInfo: function (name) {
             var obj = {};
