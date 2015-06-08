@@ -9,11 +9,11 @@ ADVパート作成ツール
 
 *View*
 - AppView
-    %currentIndex:  現在表示しているシーンのインデックス
-    @add:           シーンを追加
-    @delete:        シーンを削除
-    @load:          シーンデータを読み込む
-    @save:          シーンデータを保存する
+    %currentIndex:  現在表示しているシーンのインデックス  
+    @add:           シーンを追加  
+    @delete:        シーンを削除  
+    @load:          シーンデータを読み込む  
+    @save:          シーンデータを保存する  
 
 
 ### Chara
