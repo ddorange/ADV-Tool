@@ -5,9 +5,13 @@ define(function (require, exports, module) {
     var Backbone = require('backbone');
 
 
+    // private
     var _currentIndex = 0; // 現在表示しているmodelのインデックス
 
-
+     /**
+     * WordView Class
+     *
+     */
     var WordView = Backbone.View.extend({
 
         el: '#js-word',
@@ -17,7 +21,8 @@ define(function (require, exports, module) {
         $transform: null,
 
         events: {
-            'change .js-select': 'onChangeSelect'
+            'change .js-select': 'onChangeSelect',
+            'input  .js-input':   'onInput'
         },
 
         initialize: function() {
@@ -85,6 +90,13 @@ define(function (require, exports, module) {
                 }
                 this.collection.models[_currentIndex].set('name', nameVal);
             }
+
+            this.collection.models[_currentIndex].set(key, val);
+        },
+        onInput: function (e) {
+            var $cTarget = $(e.currentTarget),
+                key = $cTarget.attr('name'),
+                val  = $cTarget.val();
 
             this.collection.models[_currentIndex].set(key, val);
         }
