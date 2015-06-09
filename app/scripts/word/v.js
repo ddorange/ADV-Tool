@@ -2,7 +2,8 @@ define(function (require, exports, module) {
 
     'use strict';
 
-    var Backbone = require('backbone');
+    var Backbone = require('backbone'),
+        PreviewView = require('word/vPreview');
 
 
     // private
@@ -20,6 +21,8 @@ define(function (require, exports, module) {
         $text: null,
         $transform: null,
 
+        v: {},
+
         events: {
             'change .js-select': 'onChangeSelect',
             'input  .js-input':   'onInput'
@@ -32,6 +35,8 @@ define(function (require, exports, module) {
             this.$customName = this.$el.find('#js-word-name-custom');
             this.checkDisplay();
 
+            this.v.preview = new PreviewView({collection: this.collection});
+
             this.listenTo(this.collection, 'add',     this.render);
             this.listenTo(this.collection, 'reset',   this.addAll);
             this.listenTo(this.collection, 'remove', this.removeOne);
@@ -42,6 +47,8 @@ define(function (require, exports, module) {
             this.$text.val(model.get('text'));
             this.$transform.val(model.get('transform'));
             this.checkDisplay();
+
+            this.v.preview.render(model);
 
             return this;
         },
