@@ -90,9 +90,11 @@ define(function (require, exports, module) {
             
             var m = this.c.scene.models[index];
 
-            this.c.stage.remove(m.get('stage'));
-            this.c.word.remove(m.get('word'));
-            this.c.scene.remove(m);
+            if (m) {
+                this.c.stage.remove(m.get('stage'));
+                this.c.word.remove(m.get('word'));
+                this.c.scene.remove(m);
+            }
         },
         /**
          *
