@@ -35,9 +35,48 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/assets/fonts/bootstr
     @extend %screen;
 }
 
-.preview-textPanel {
+.   preview-word {
+    top: 380px;
+    left: 350px;
     
+    &.preview-word_user   { .preview-word-label { background-color: rgba(255, 206, 222, 0.8); } }
+    &.preview-word_chara  { .preview-word-label { background-color: rgba(211, 245, 255, 0.8); } }
+    &.preview-word_custom { .preview-word-label { background-color: rgba(255, 248, 184, 0.8); } }
+    &.preview-word_none   { .preview-word-label { display: none; } }
+
+    &.preview-word_user,
+    &.preview-word_chara,
+    &.preview-word_custom, {
+        .preview-word-body {
+            border-top-left-radius: 0;
+        }
+    }
 }
+
+.preview-word-label {
+    width: 64px;
+    height: 20px;
+    padding: 0 10px;
+    color: #5f4823;
+    font-size: 13px;
+    line-height: 20px;
+    text-align: center;
+    word-wrap: normal;
+    background-color: rgba(211,245,255,0.8);
+}
+
+.preview-word-body {
+    width: 300px;
+    height: 80px;
+    padding: 8px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background-color: rgba(255,255,255,0.8);
+    font-size: 14px;
+    line-height: 24px;
+}
+
+
 
 .preview-effect {
     @extend %screen;
