@@ -21,6 +21,24 @@ define(function (require, exports, module) {
         getData: function () {
             return this.data;
         },
+        getCharacterProfile: function (profileId) {
+            var testData = [
+                {
+                    name:  'キャラクター１',
+                    base:  [ 'base', ],
+                    blink: [ 'blink' ],
+                    skin:  [ 'angry', 'embarrassed', 'sad', 'smile' ]
+                },
+                {
+                    name:  'キャラクター２',
+                    base:  [ 'base', 'base_custom_1',  'base_custom_2', 'base_plain' ],
+                    blink: [ 'blink' ],
+                    skin:  [ 'angry', 'embarrassed', 'sad', 'smile', 'custom_1', 'custom_2', 'custom_3' ]
+                }
+            ];
+
+            return testData[profileId - 1];
+        },
         /**
          * サーバーから取得したデータを汎用的な形式に変更する
          * @memo: サーバーの仕様変更が難しいため 
