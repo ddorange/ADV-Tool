@@ -31,7 +31,7 @@
             <div id="js-preview" class="preview relative">
                 <div id="js-preview-bg" class="review-bg absolute"></div>
                 <div id="js-preview-camera" class="preview-stage absolute">
-                    <ul id="js-preview-chara"></ul>
+                    <ul id="js-preview-chara" class="preview-chara"></ul>
                 </div>
                 <div id="js-preview-still" class="preview-still absolute"></div>
                 <div id="js-preview-word" class="preview-word absolute">
@@ -46,15 +46,25 @@
         # Register
         -->
         <div id="js-register" class="row">
-            <form class="form-inline mts">
-                <select class="js-select form-control input-sm">
+            <div class="col-md-6">
+                <form class="form-inline mtm">
+                    <!-- profileId -->
+                    <select id="js-profileId" class="form-control input-sm">
                         <option value="1">キャラクター１</option>
                         <option value="2">キャラクター２</option>
-                        <option value="3">キャラクター３</option>
-                </select>
-                <button type="button" class="js-add btn btn-default btn-sm">追加</button>
-            </form>
-            <ul class="js-list"></ul>
+                    </select>
+                    <!-- base -->
+                    <select id="js-base" class="js-select form-control input-sm">
+                        <option value="base">base</option>
+                    </select>
+                    <!-- blink -->
+                    <select id="js-blink" class="js-select form-control input-sm">
+                        <option value="blink">blink</option>
+                    </select>
+                    <button type="button" class="js-add btn btn-default btn-sm">追加</button>
+                </form>
+                <ul id="js-register" class="list-group mts"></ul>
+            </div>
         </div>
         
         <!-- 
@@ -75,43 +85,53 @@
             <!-- Edit: Character -->
             <div class="col-md-4">
                 <strong>キャラクター</strong>
-                <ul id="js-edit-charaList"></ul>
+                <ul id="js-edit-chara"></ul>
             </div>
             
             <!-- Edit: Stage -->
             <div id="js-stage" class="col-md-4">
                 
                 <label>Background</label>
-                <select class="js-select form-control input-sm" name="bg">
-                    <option value="1_1">1_1</option>
-                    <option value="1_2">1_2</option>
-                    <option value="1_3">1_3</option>
-                </select>
+                <div class="form-group">
+                    <select id="js-stage-bg" class="js-select form-control input-sm" name="bg">
+                        <option value="none">-</option>
+                        <option value="1_1">1_1</option>
+                        <option value="1_2">1_2</option>
+                        <option value="1_3">1_3</option>
+                    </select>
+                </div>
 
                 <label>Still</label>
-                <select class="js-select form-control input-sm" name="still">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                </select>
+                <div class="form-group">
+                    <select id="js-stage-still" class="js-select form-control input-sm" name="still">
+                        <option value="none">なし</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+                </div>
                 
                 <label>Camera</label>
-                <select class="js-select form-control input-sm" name="camera">
-                    <option value="left1"   >左１</option>
-                    <option value="left2"   >左２</option>
-                    <option value="right1"  >右１</option>
-                    <option value="right2"  >右２</option>
-                    <option value="center"  >中央</option>
-                    <option value="shake"   >画面を揺らす</option>
-                    <option value="lookup"  >見上げる（ワイド背景のみ）</option>
-                    <option value="lookdown">視線を下げる（ワイド背景のみ）</option>
-                </select>
+                <div class="form-group">
+                    <select id="js-stage-camera" class="js-select form-control input-sm" name="camera">
+                        <option value="-400"     >左２</option>
+                        <option value="-200"     >左１</option>
+                        <option value="0"        >中央</option>
+                        <option value="200"      >右１</option>
+                        <option value="400"      >右２</option>
+                        <option value="SHAKE"    >画面を揺らす</option>
+                        <option value="LOOK_UP"  >見上げる（ワイド背景のみ）</option>
+                        <option value="LOOK_DOWN">視線を下げる（ワイド背景のみ）</option>
+                    </select>
+                </div>
 
                 <label>Effect</label>
-                <select class="js-select form-control input-sm" name="effect">
-                    <option value="NONE">なし</option>
-                    <option value="BLACK">ブラック</option>
-                    <option value="WHITE">ホワイト</option>
-                </select>
+                <div class="form-group">
+                    <select id="js-stage-effect" class="js-select form-control input-sm" name="effect">
+                        <option value="NONE">なし</option>
+                        <option value="BLACK">ブラック</option>
+                        <option value="WHITE">ホワイト</option>
+                    </select>
+                </div>
             </div>
                 
             <!-- Edit: Word -->
@@ -157,13 +177,11 @@
 <script type="text/x-handlebars-template" data-template-name="tp_sceneIndexListItem">
     <li class="js-selectScene" data-index="{{index}}"><a>{{index}}</a></li>
 </script>
-<script type="text/x-handlebars-template" data-template-name="tp_chara">
-    <li>
-        <p>{{profileId}}</p>
-        <p>{{base}}</p>
-        <p>{{blink}}</p>
-        <button type="button" class="js-remove btn btn-danger btn-sm">X</button>
-    </li>
+<script type="text/x-handlebars-template" data-template-name="tp_chara-register">
+{{profileId}}（{{base}} | {{blink}}）
+<span class="js-remove badge">
+    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+</span>
 </script>
 
 <script type="text/x-handlebars-template" data-template-name="tp_editChara">
@@ -175,11 +193,14 @@
             <div class="form-group">
                 <label class="col-sm-5 control-label">Transform</label>
                 <div class="col-sm-5">
-                    <select class="form-control input-sm">
-                            <option value="0">show</option>
-                            <option value="0">hide</option>
-                            <option value="0">fadeIn</option>
-                            <option value="0">fadeOut</option>
+                    <select class="js-select form-control input-sm" name="transform">
+                            <option value="NONE">なし</option>
+                            <option value="SHOW">show</option>
+                            <option value="HIDE">hide</option>
+                            <option value="FADE_IN">fadeIn</option>
+                            <option value="FADE_OUT">fadeOut</option>
+                            <option value="APPROACH">近づく</option>
+                            <option value="DISAPPROACH">元の位置に戻る</option>
                     </select>
                 </div>
             </div>
@@ -188,7 +209,7 @@
             <div class="form-group">
                 <label class="col-sm-5 control-label">Positon</label>
                 <div class="col-sm-5">
-                    <select class="form-control input-sm">
+                    <select class="js-select form-control input-sm" name="position">
                             <option value="0">0</option>
                             <option value="-100">-100</option>
                             <option value="100">100</option>
@@ -200,8 +221,12 @@
             <div class="form-group">
                 <label class="col-sm-5 control-label">Skin</label>
                 <div class="col-sm-5">
-                    <select class="form-control input-sm">
-                            <option value="0">0</option>
+                    <select class="js-select form-control input-sm" name="skin">
+                            <option value="none">なし</option>
+                            <option value="angry">angry</option>
+                            <option value="embarrassed">embarrassed</option>
+                            <option value="sad">sad</option>
+                            <option value="smile">smile</option>
                     </select>
                 </div>
             </div>
@@ -210,7 +235,7 @@
             <div class="form-group">
                 <label class="col-sm-5 control-label">Action</label>
                 <div class="col-sm-5">
-                    <select class="form-control input-sm">
+                    <select class="js-select form-control input-sm" name="action">
                             <option value="0">0</option>
                     </select>
                 </div>
@@ -220,7 +245,7 @@
             <div class="form-group">
                 <label class="col-sm-5 control-label">Balloon</label>
                 <div class="col-sm-5">
-                    <select class="form-control input-sm">
+                    <select class="js-select form-control input-sm" name="balloon">
                             <option value="0">0</option>
                     </select>
                 </div>
@@ -228,6 +253,10 @@
         </form>
     </div>
 </div>
+</script>
+<script type="text/x-handlebars-template" data-template-name="tp_previewChara">
+<div class="js-character-img"></div>
+<div class="js-balloon balloon balloon_M"></div>
 </script>
 <script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>
 </body>

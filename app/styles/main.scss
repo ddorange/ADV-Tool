@@ -8,6 +8,7 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/assets/fonts/bootstr
     top: 91px;
     width: 320px;
     height: 418px;
+    background-size: 320px 418px;
 }
 
 .preview {
@@ -31,6 +32,17 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/assets/fonts/bootstr
     border: solid 1px rgba(255, 0, 0, 0.5);
 }
 
+.character {
+    top: -70px;
+    left: 225px;
+    
+    img {
+        position: absolute;
+        left: -65px;
+        width: 450px;
+    }
+}
+
 .preview-still {
     @extend %screen;
 }
@@ -38,19 +50,6 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/assets/fonts/bootstr
 .preview-word {
     top: 380px;
     left: 350px;
-    
-    &.preview-word_user   { .preview-word-label { background-color: rgba(255, 206, 222, 0.8); } }
-    &.preview-word_chara  { .preview-word-label { background-color: rgba(211, 245, 255, 0.8); } }
-    &.preview-word_custom { .preview-word-label { background-color: rgba(255, 248, 184, 0.8); } }
-    &.preview-word_none   { .preview-word-label { display: none; } }
-
-    &.preview-word_user,
-    &.preview-word_chara,
-    &.preview-word_custom, {
-        .preview-word-text {
-            border-top-left-radius: 0;
-        }
-    }
 }
 
 .preview-word-label {
@@ -62,7 +61,12 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/assets/fonts/bootstr
     line-height: 20px;
     text-align: center;
     word-wrap: normal;
-    background-color: rgba(211,245,255,0.8);
+
+    &[data-type="USER"]    { background-color: rgba(255, 206, 222, 0.8); } 
+    &[data-type="CHARA"],
+    &[data-type="UNKNOEN"] { background-color: rgba(211, 245, 255, 0.8); }
+    &[data-type="CUSTOM"]  { background-color: rgba(255, 248, 184, 0.8); }
+    &[data-type="NONE"]    { background-color: transparent; color: transparent; }
 }
 
 .preview-word-text {
@@ -70,7 +74,6 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/assets/fonts/bootstr
     height: 80px;
     padding: 8px;
     box-sizing: border-box;
-    border-radius: 10px;
     background-color: rgba(255,255,255,0.8);
     font-size: 14px;
     line-height: 24px;
@@ -80,6 +83,9 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/assets/fonts/bootstr
 
 .preview-effect {
     @extend %screen;
+
+    &[data-type="BLACK"] { background-color: rgb(0, 0, 0); } 
+    &[data-type="WHITE"] { background-color: rgb(255, 255, 255); } 
 }
 
 .preview-effect_white { background-color: #fff; }
