@@ -15,10 +15,6 @@ define(function (require, exports, module) {
         }
     });
 
-    var CharaCollection = Backbone.Collection.extend({
-        model: CharaModel
-    });
-
-    return CharaCollection;
+    return CharaModel;
 
 });

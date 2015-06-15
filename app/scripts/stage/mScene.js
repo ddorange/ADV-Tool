@@ -4,10 +4,10 @@ define(function (require, exports, module) {
 
     var Backbone = require('backbone');
 
-    var MStage = Backbone.Model.extend({
+    var StageModel = Backbone.Model.extend({
         defaults: function () {
             return  {
-                camera: 'CENTER',
+                camera: 0,
                 bg: null,
                 effect: null,
                 still: null,
@@ -15,8 +15,6 @@ define(function (require, exports, module) {
         }
     });
 
-    var CStage = Backbone.Collection.extend({ model: MStage });
-
-    return CStage;
+    return StageModel;
 
 });

@@ -81,11 +81,6 @@ define(function (require, exports, module) {
                 val  = $cTarget.val(),
                 nameVal;
 
-            if (this.collection.length < 1) {
-                window.alert('シーンを挿入して下さい');
-                return;
-            }
-
             console.log(key, val);
 
             // ラベル変更の際は、名前も一緒に取得する

@@ -44,7 +44,7 @@ define(function (require, exports, module) {
             this.toggleIndex(this.collection.length - 1); // 最新のシーンを表示する
         },
         /**
-         * シーンナンバーを変更する
+         * 任意のシーンのタブをアクティブにする
          */
         toggleIndex: function (index) {
             $(this.$sceneIndexList.children()).removeClass('active');

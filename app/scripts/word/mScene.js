@@ -7,10 +7,9 @@ define(function (require, exports, module) {
     var WordModel = Backbone.Model.extend({
         defaults: function () {
             return  {
-                index: 0,
-                name: 'NONE',
+                name: '',
                 type: 'NONE',
-                text: 'なし',
+                text: '',
                 transform: null
             };
         }
