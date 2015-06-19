@@ -11,10 +11,12 @@ define(function (require, exports, module) {
         
         // index ---
         IndexView       = require('index/v'),
+        IndexModel      = require('index/m'),
+        IndexCollection = Backbone.Collection.extend({ model: IndexModel }),
         
         // stage ---
         StageModel      = require('stage/mScene'),
-        StageCollection  = Backbone.Collection.extend({ model: StageModel }),
+        StageCollection = Backbone.Collection.extend({ model: StageModel }),
         StageView       = require('stage/vEdit'),
         
         // word ---
@@ -33,10 +35,12 @@ define(function (require, exports, module) {
         controller: {},
         
         setup: function () {
+            console.log('app setup');
+
             // Collectionの初期化
             this.c.stage = new StageCollection();
             this.c.word  = new WordCollection();
-            this.c.scene = new Backbone.Collection();
+            this.c.scene = new IndexCollection();
 
             // Viewの初期化
             this.v.idnex = new IndexView({ collection: this.c.scene });
@@ -61,15 +65,14 @@ define(function (require, exports, module) {
          *
          */
         showScene: function (index) {
-            var model = this.c.scene.at(index);
+            var self = this,
+                model = this.c.scene.at(index);
 
-            _.each(model.attributes, function (key, cid) {
-                if (key === 'stage') {
-                    this.v.stage.render(this.c.stage.get(cid));
-                } else if ('word') {
-                    this.v.word.render(this.c.word.get(cid));
-                } else {
+            _.each(model.attributes, function (cid, key) {
+                if (key.slice(0, 6) === 'chara_') {
                     charaController.show(key, cid);
+                } else {
+                    self.v[key].render(self.c[key].get(cid));
                 }
             });
         },
@@ -85,10 +88,10 @@ define(function (require, exports, module) {
                 wordData  = opt.stage || {};
 
             // 追加した各モデルのcidをシーンのモデルに持たせる
-            _.each(charaController.getAllRegistered(), function (model) {
+            charaController.getAllRegistered().each(function (model) {
                 var id    = model.get('id');
 
-                scene[id] = charaController.createScene(id, charaData[id]);
+                scene[id] = charaController.createScene(id, charaData[id]).cid;
             });
             scene.stage = this.c.stage.add(stageData).cid;
             scene.word  = this.c.word.add(wordData).cid;
@@ -111,9 +114,20 @@ define(function (require, exports, module) {
                 this.c.scene.remove(m);
             }
         },
+        /**
+         * 
+         */
         registerChara: function (id) {
             this.c.scene.each(function (m) {
                 m.set(id, charaController.createScene(id).cid);
+            });
+        },
+        /**
+         * シーンに登録されているキャラクターを削除する
+         */
+        unregisterChara: function (id) {
+            this.c.scene.each(function (m) {
+                m.unset(id);
             });
         },
         publishScene: function () {
@@ -124,18 +138,22 @@ define(function (require, exports, module) {
                 var obj = {};
                 
                 _.each(model.attributes, function (cid, key) {
-                    obj[key] = self.c[key].get(cid).attributes;
+                    if (key.slice(0, 6) === 'chara_') {
+                        obj[key] = charaController.c[key].get(cid).attributes;
+                    } else {
+                        obj[key] = self.c[key].get(cid).attributes;
+                    }
                 });
                 data.push(obj);
             });
 
-            return data;
+            console.dir(data);
         },
         load: function () {
             var self = this,
                 data = core.getData() || {};
 
-            charaController.load(data.stage.chara);
+            // charaController.load(data.stage.chara);
 
             _.each(data.scene, function (obj, i) {
                 self.addScene(i, obj);

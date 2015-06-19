@@ -4,8 +4,7 @@ define(function (require, exports, module) {
 
     var core = require('core'),
         util = require('util'),
-        Backbone = require('backbone'),
-        PreviewView = require('chara/vPreview');
+        Backbone = require('backbone');
 
 
     // private
@@ -32,7 +31,7 @@ define(function (require, exports, module) {
             this.listenTo(this.collection, 'remove', this.showLatest);
         },
         render: function (model) {
-            var charaProfileDate = core.getCharacterProfile(), // キャラのSkin画像を取得する
+            var charaProfileDate = core.getCharacterProfile(model.get('profileId')), // キャラのSkin画像を取得する
                 data = _.extend(charaProfileDate, model.attributes);
 
             _currentIndex = this.collection.indexOf(model);

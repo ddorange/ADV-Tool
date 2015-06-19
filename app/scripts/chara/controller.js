@@ -21,20 +21,19 @@ define(function (require, exports, module) {
 
     /**
      * Chara Controller Class
-     *
      */
     var Controller = _.extend({
 
         c: {},
         v: {},
 
-        $charaEdit: null,
-        $charaPreview: null,
+        $editContainer: null,
+        $previewContainer: null,
 
         setup: function() {
 
-            this.$charaEdit = $('#js-edit-chara');
-            this.$charaPreview = $('#js-preview-chara');
+            this.$editContainer = $('#js-edit-chara');
+            this.$previewContainer = $('#js-preview-chara');
 
             this.c.register = new RegisterCollection();
             this.v.register = new RegisterView({ collection: this.c.register });
@@ -55,8 +54,11 @@ define(function (require, exports, module) {
                 edit:    new EditView({ collection: this.c[id] }),
                 preview: new PreviewView({ collection: this.c[id] })
             };
-            this.$charaEdit.append(this.v[id].edit.$el);
-            this.$charaPreview.append(this.v[id].preview.$el);
+            this.$editContainer.append(this.v[id].edit.$el);
+            this.$previewContainer.append(this.v[id].preview.$el);
+
+
+            // シーンの追加・削除イベントを監視する
 
             this.trigger('REGISTER', id);
         },
