@@ -33,7 +33,7 @@ define(function (require, exports, module) {
             this.$text = this.$el.find('#js-word-text');
             this.$transform = this.$el.find('#js-word-transform');
             this.$customName = this.$el.find('#js-word-name-custom');
-            this.checkDisplay();
+            this._checkDisplay();
 
             this.v.preview = new PreviewView({collection: this.collection});
 
@@ -46,7 +46,7 @@ define(function (require, exports, module) {
             this.$name.val(model.get('type'));
             this.$text.val(model.get('text'));
             this.$transform.val(model.get('transform'));
-            this.checkDisplay();
+            this._checkDisplay();
 
             this.v.preview.render(model);
 
@@ -61,16 +61,7 @@ define(function (require, exports, module) {
             if (model) {
                 this.render(model);
             }
-        },
-        /**
-         * collectionに要素が一つもないときは表示しない
-         */
-        checkDisplay: function () {
-            if (this.collection.length === 0) {
-                this.$el.addClass('hide');
-            } else {
-                this.$el.removeClass('hide');
-            }
+            this._checkDisplay();
         },
         /**
          * form要素のハンドリング
@@ -101,6 +92,16 @@ define(function (require, exports, module) {
                 val  = $cTarget.val();
 
             this.collection.models[_currentIndex].set(key, val);
+        },
+        /**
+         * collectionに要素が一つもないときは表示しない
+         */
+        _checkDisplay: function () {
+            if (this.collection.length < 1) {
+                this.$el.addClass('hide');
+            } else {
+                this.$el.removeClass('hide');
+            }
         }
     });
 

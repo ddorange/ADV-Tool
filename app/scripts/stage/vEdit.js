@@ -33,12 +33,12 @@ define(function (require, exports, module) {
             this.$still  = this.$el.find('#js-stage-still');
             this.$camera = this.$el.find('#js-stage-camera');
             this.$effect = this.$el.find('#js-stage-effect');
-            this.checkDisplay();
+            this._checkDisplay();
 
             this.v.preview = new PreviewView({collection: this.collection});
 
-            this.listenTo(this.collection, 'add',     this.render);
-            this.listenTo(this.collection, 'reset',   this.addAll);
+            this.listenTo(this.collection, 'add',    this.render);
+            this.listenTo(this.collection, 'reset',  this.addAll);
             this.listenTo(this.collection, 'remove', this.removeOne);
         },
         render: function (model) {
@@ -49,7 +49,7 @@ define(function (require, exports, module) {
             this.$camera.val(model.get('camera'));
             this.$effect.val(model.get('effect'));
 
-            this.checkDisplay();
+            this._checkDisplay();
 
             this.v.preview.render(model);
 
@@ -64,16 +64,7 @@ define(function (require, exports, module) {
             if (model) {
                 this.render(model);
             }
-        },
-        /**
-         * collectionに要素が一つもないときは表示しない
-         */
-        checkDisplay: function () {
-            if (this.collection.length === 0) {
-                this.$el.addClass('hide');
-            } else {
-                this.$el.removeClass('hide');
-            }
+            this._checkDisplay();
         },
         /**
          * form要素のハンドリング
@@ -86,6 +77,16 @@ define(function (require, exports, module) {
 
             console.log(key, val);
             cModel.set(key, val);
+        },
+        /**
+         * collectionに要素が一つもないときは表示しない
+         */
+        _checkDisplay: function () {
+            if (this.collection.length < 1) {
+                this.$el.addClass('hide');
+            } else {
+                this.$el.removeClass('hide');
+            }
         }
     });
 

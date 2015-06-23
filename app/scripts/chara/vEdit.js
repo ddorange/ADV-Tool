@@ -11,8 +11,7 @@ define(function (require, exports, module) {
     var _currentIndex = 0; // 現在表示しているmodelのインデックス
 
      /**
-     * WordView Class
-     *
+     * Chara Edit View Class
      */
     var CharaSceneEditView = Backbone.View.extend({
 
@@ -29,6 +28,7 @@ define(function (require, exports, module) {
             this.listenTo(this.collection, 'add',    this.render);
             this.listenTo(this.collection, 'reset',  this.showLatest);
             this.listenTo(this.collection, 'remove', this.showLatest);
+            this._checkDisplay();
         },
         render: function (model) {
             var charaProfileDate = core.getCharacterProfile(model.get('profileId')), // キャラのSkin画像を取得する
@@ -36,6 +36,9 @@ define(function (require, exports, module) {
 
             _currentIndex = this.collection.indexOf(model);
             this.$el.html(util.template.build(this.templateName, data));
+            
+            this._checkDisplay();
+
             return this;
         },
         /**
@@ -45,6 +48,7 @@ define(function (require, exports, module) {
             if (this.collection.length > 0) {
                 this.render(this.collection.last());
             }
+            this._checkDisplay();
         },
         /**
          * form要素のハンドリング
@@ -59,8 +63,16 @@ define(function (require, exports, module) {
             } else {
                 this.collection.models[_currentIndex].set(key, val);
             }
-
-            console.log(key, val);
+        },
+        /**
+         * collectionに要素が一つもないときは表示しない
+         */
+        _checkDisplay: function () {
+            if (this.collection.length < 1) {
+                this.$el.addClass('hide');
+            } else {
+                this.$el.removeClass('hide');
+            }
         }
     });
 
