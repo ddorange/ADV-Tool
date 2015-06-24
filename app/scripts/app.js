@@ -7,7 +7,7 @@ define(function (require, exports, module) {
 
     'use strict';
 
-    var core            = require('core'),
+    var core            = require('core/index'),
         
         // index ---
         IndexView       = require('index/v'),

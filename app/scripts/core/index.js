@@ -2,9 +2,17 @@ define(function (require, exports, module) {
 
     'use strict';
 
-    var Backbone = require('backbone');
+    var Backbone = require('backbone'),
+        ListPresentationView = require('core/view/listPresentationView');
 
     var core = {
+        
+        View: {
+            ListPresentationView: ListPresentationView
+        },
+        Model: {},
+        Collection: {},
+
         setup: function (data) {
 
             console.log('core.setup');
