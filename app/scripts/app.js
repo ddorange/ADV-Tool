@@ -48,8 +48,8 @@ define(function (require, exports, module) {
             this.v.word  = new WordView({ collection: this.c.word });
 
             charaController.setup();
-            this.listenTo(charaController, 'REGISTER', this.registerChara);
-            this.listenTo(charaController, 'UNREGISTER', this.unregisterChara);
+            this.listenTo(charaController, 'REGISTER',   this.addCharaToScene);
+            this.listenTo(charaController, 'UNREGISTER', this.removeCharaFromScene);
 
             // indexViewはコントローラーとViewを分離しているのでイベントをハンドリング
             this.listenTo(this.v.idnex, 'ADD_SCENE',    this.addScene);
@@ -62,7 +62,6 @@ define(function (require, exports, module) {
         /**
          * 任意のシーンを表示する
          * @params {Int} index: 表示するシーンのインデックス
-         *
          */
         showScene: function (index) {
             var self = this,
@@ -78,7 +77,8 @@ define(function (require, exports, module) {
         },
         /**
          * シーンを追加する
-         * @params {Int} index: 追加するシーンのインデックス
+         * @params {Int}    index: 追加するシーンのインデックス
+         * @params {Object} option:
          */
         addScene: function (index, option) {
             var scene     = {},
@@ -101,35 +101,43 @@ define(function (require, exports, module) {
         /**
          * シーンを削除する
          * @params {Int} index: 表示するシーンのインデックス
-         *
          */
         removeScene: function (index) {
-            console.log('removeScene:' + index);
-            
-            var m = this.c.scene.at(index);
+            var self  = this,
+                model = this.c.scene.at(index);
 
-            if (m) {
-                this.c.stage.remove(m.get('stage'));
-                this.c.word.remove(m.get('word'));
-                this.c.scene.remove(m);
-            }
+            _.each(model.attributes, function (cid, key) {
+                if (key.slice(0, 6) === 'chara_') {
+                    charaController.removeScene(key, cid);
+                } else {
+                    self.c[key].remove(cid);
+                }
+            });
+            this.c.scene.remove(model);
+
+            console.log('removeScene:' + index);
         },
         /**
-         * 
+         * シーンのキャラクターフィールドに現在のシーンインデックスまでのシーンのcidを追加する
+         * @params {String} id:
          */
-        registerChara: function (id) {
-            this.c.scene.each(function (m) {
-                m.set(id, charaController.createScene(id).cid);
+        addCharaToScene: function (id) {
+            this.c.scene.each(function (model) {
+                model.set(id, charaController.createScene(id).cid);
             });
         },
         /**
-         * シーンに登録されているキャラクターを削除する
+         * 任意のキャラクターのシーンを全て削除する
+         * @params {String} id:
          */
-        unregisterChara: function (id) {
-            this.c.scene.each(function (m) {
-                m.unset(id);
+        removeCharaFromScene: function (id) {
+            this.c.scene.each(function (model) {
+                model.unset(id);
             });
         },
+        /**
+         *
+         */
         publishScene: function () {
             var self = this,
                 data = [];

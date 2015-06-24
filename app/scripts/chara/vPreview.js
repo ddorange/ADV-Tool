@@ -3,7 +3,6 @@ define(function (require, exports, module) {
     'use strict';
 
     var Backbone = require('backbone'),
-        core = require('core'),
         util = require('util');
 
     /**
@@ -25,6 +24,7 @@ define(function (require, exports, module) {
             this.$baloon = this.$el.find('.js-balloon');
 
             this.listenTo(this.collection, 'change', this.render);
+            this.listenTo(this.collection, 'add',    this.render);
             this.listenTo(this.collection, 'reset',  this.showLatest);
             this.listenTo(this.collection, 'remove', this.showLatest);
         },
@@ -50,16 +50,21 @@ define(function (require, exports, module) {
 
             return this;
         },
-        changeVisible: function () {
-            console.log('changeVisible');
+        empty: function () {
+            this.$el.addClass('hide');
+            this.$charaImg.empty();
+            this.$el.attr('style', '');
+            this.$el.attr('data-action', 'NONE');
+            this.$baloon.attr('data-type', 'NONE');
         },
-
         /**
          * 最新のシーンを表示する
          */
         showLatest: function () {
             if (this.collection.length > 0) {
                 this.render(this.collection.last());
+            } else {
+                this.empty();
             }
         }
     });

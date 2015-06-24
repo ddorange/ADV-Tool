@@ -96,6 +96,9 @@ define(function (require, exports, module) {
 
             return this.c[id].add(data);
         },
+        removeScene: function (id, cid) {
+            this.c[id].remove(cid);
+        },
         getRegistered: function (id) {
             return this.c.register[id];
         },
