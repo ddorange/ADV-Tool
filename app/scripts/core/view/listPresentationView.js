@@ -33,9 +33,6 @@ define(function (require, exports, module) {
         show: function (model) {
             this._currentIndex = this.collection.indexOf(model);
             this.render(model);
-            // _.each(this.vSub, function (v) {
-            //     v.render(model);
-            // });
         },
         /**
          * 最新のコレクションの要素を表示する
@@ -58,7 +55,7 @@ define(function (require, exports, module) {
             this.collection.at(this._currentIndex).set(key, val);
         },
         /**
-         * 
+         * イベントの購読を設定する
          */
         bindEvent: function () {
             this.listenTo(this.collection, 'add',    this.show);

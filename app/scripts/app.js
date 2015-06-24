@@ -15,14 +15,14 @@ define(function (require, exports, module) {
         IndexCollection = Backbone.Collection.extend({ model: IndexModel }),
         
         // stage ---
-        StageModel      = require('stage/mScene'),
+        StageModel      = require('stage/m'),
         StageCollection = Backbone.Collection.extend({ model: StageModel }),
-        StageView       = require('stage/vEdit'),
+        StageView       = require('stage/v'),
         
         // word ---
-        WordModel       = require('word/mScene'),
+        WordModel       = require('word/m'),
         WordCollection  = Backbone.Collection.extend({ model: WordModel }),
-        WordView        = require('word/vEdit');
+        WordView        = require('word/v');
 
     var charaController = require('chara/controller');
 
@@ -172,8 +172,10 @@ define(function (require, exports, module) {
         }
 
     }, Backbone.Events);
-
+    
+    // debug
     window.app = app;
+    window.cc = charaController;
 
     return  app;
 
