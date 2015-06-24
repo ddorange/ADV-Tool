@@ -2,7 +2,7 @@ define(function (require, exports, module) {
 
     'use strict';
 
-    var core = require('core'),
+    var core = require('core/index'),
         util = require('util'),
         Backbone = require('backbone');
 

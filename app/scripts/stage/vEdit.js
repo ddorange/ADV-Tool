@@ -2,18 +2,13 @@ define(function (require, exports, module) {
 
     'use strict';
 
-    var Backbone = require('backbone'),
+    var core        = require('core/index'),
         PreviewView = require('stage/vPreview');
 
-
-    // private
-    var _currentIndex = 0; // 現在表示しているmodelのインデックス
-
      /**
-     * WordView Class
-     *
+     * Stage Edit View Class
      */
-    var StageEditView = Backbone.View.extend({
+    var StageEditView = core.View.ListPresentationView.extend({
 
         el: '#js-stage',
 
@@ -22,71 +17,31 @@ define(function (require, exports, module) {
         $camera: null,
         $effect: null,
 
-        v: {},
-
-        events: {
-            'change .js-select': 'onChangeSelect'
-        },
-
         initialize: function() {
+            this.$el.addClass('hide');
             this.$bg     = this.$el.find('#js-stage-bg');
             this.$still  = this.$el.find('#js-stage-still');
             this.$camera = this.$el.find('#js-stage-camera');
             this.$effect = this.$el.find('#js-stage-effect');
-            this._checkDisplay();
-
-            this.v.preview = new PreviewView({collection: this.collection});
-
-            this.listenTo(this.collection, 'add',    this.render);
-            this.listenTo(this.collection, 'reset',  this.showLatest);
-            this.listenTo(this.collection, 'remove', this.showLatest);
+            
+            // サブビューを生成する
+            this.preview = new PreviewView({ collection: this.collection });
+            
+            this.bindEvent();
         },
         render: function (model) {
-            _currentIndex = this.collection.indexOf(model);
+            this.$el.removeClass('hide');
             this.$bg.val(model.get('bg'));
             this.$still.val(model.get('still'));
             this.$camera.val(model.get('camera'));
             this.$effect.val(model.get('effect'));
-            this._checkDisplay();
-
             return this;
         },
         show: function (model) {
-            this.render(model);
-            this.v.preview.render(model);
-        },
-        showLatest: function () {
-            var model = this.collection.last();
-
-            if (model) {
-                this.show(model);
-            }
-            this._checkDisplay();
-        },
-        /**
-         * form要素のハンドリング
-         */
-        onChangeSelect: function (e) {
-            var $cTarget = $(e.currentTarget),
-                key = $cTarget.attr('name'),
-                val  = $cTarget.val(),
-                cModel = this.collection.at(_currentIndex);
-
-            console.log(key, val);
-            cModel.set(key, val);
-        },
-        /**
-         * collectionに要素が一つもないときは表示しない
-         */
-        _checkDisplay: function () {
-            if (this.collection.length < 1) {
-                this.$el.addClass('hide');
-            } else {
-                this.$el.removeClass('hide');
-            }
+            this.constructor.__super__.show.call(this, model);
+            this.preview.render(model);
         }
     });
 
     return StageEditView;
-
 });

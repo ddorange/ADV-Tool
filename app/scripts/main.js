@@ -17,7 +17,7 @@ require.config({
     }
 });
 
-require(['backbone', 'core', 'util', 'app'], function (Backbone, core, util, app) {
+require(['backbone', 'core/index', 'util', 'app'], function (Backbone, core, util, app) {
 
     $(function () {
         core.setup();
