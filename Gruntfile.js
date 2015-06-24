@@ -49,16 +49,16 @@ module.exports = function (grunt) {
                     'test/spec/**/*.js'
                 ]
             },
-            jst: {
-                files: [
-                    '<%= yeoman.app %>/scripts/templates/*.ejs'
-                ],
-                tasks: ['jst']
-            },
-            test: {
-                files: ['<%= yeoman.app %>/scripts/{,*/}*.js', 'test/spec/**/*.js'],
-                tasks: ['test:true']
-            }
+            // jst: {
+            //     files: [
+            //         '<%= yeoman.app %>/scripts/templates/*.ejs'
+            //     ],
+            //     tasks: ['jst']
+            // },
+            // test: {
+            //     files: ['<%= yeoman.app %>/scripts/{,*/}*.js', 'test/spec/**/*.js'],
+            //     tasks: ['test:true']
+            // }
         },
         connect: {
             options: {
