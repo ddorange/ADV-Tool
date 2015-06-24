@@ -12,8 +12,7 @@ define(function (require, exports, module) {
             // サーバーからHTMLに渡されたデータを拾う
             this.data = this.convert(data);
 
-            // 一旦sync止める
-            // TODO: localStrageに保存
+            // サーバーのAPIとあわないのでsyncを止める
             Backbone.sync = function (method, model, options) {
                 console.log(method, model, options);
             };
