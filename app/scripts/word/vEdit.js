@@ -25,7 +25,7 @@ define(function (require, exports, module) {
 
         events: {
             'change .js-select': 'onChangeSelect',
-            'input  .js-input':   'onInput'
+            'input  .js-input':  'onInput'
         },
 
         initialize: function() {
@@ -33,13 +33,12 @@ define(function (require, exports, module) {
             this.$text = this.$el.find('#js-word-text');
             this.$transform = this.$el.find('#js-word-transform');
             this.$customName = this.$el.find('#js-word-name-custom');
+            this.v.preview = new PreviewView({collection: this.collection});
             this._checkDisplay();
 
-            this.v.preview = new PreviewView({collection: this.collection});
-
-            this.listenTo(this.collection, 'add',     this.render);
-            this.listenTo(this.collection, 'reset',   this.addAll);
-            this.listenTo(this.collection, 'remove', this.removeOne);
+            this.listenTo(this.collection, 'add',    this.render);
+            this.listenTo(this.collection, 'reset',  this.showLatest);
+            this.listenTo(this.collection, 'remove', this.showLatest);
         },
         render: function (model) {
             _currentIndex = this.collection.indexOf(model);
@@ -48,18 +47,17 @@ define(function (require, exports, module) {
             this.$transform.val(model.get('transform'));
             this._checkDisplay();
 
-            this.v.preview.render(model);
-
             return this;
         },
-        addAll: function () {
-            this.render(this.collection.last());
+        show: function (model) {
+            this.render(model);
+            this.v.preview.render(model);
         },
-        removeOne: function () {
+        showLatest: function () {
             var model = this.collection.last();
 
             if (model) {
-                this.render(model);
+                this.show(model);
             }
             this._checkDisplay();
         },

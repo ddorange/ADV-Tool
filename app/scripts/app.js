@@ -71,7 +71,7 @@ define(function (require, exports, module) {
                 if (key.slice(0, 6) === 'chara_') {
                     charaController.show(key, cid);
                 } else {
-                    self.v[key].render(self.c[key].get(cid));
+                    self.v[key].show(self.c[key].get(cid));
                 }
             });
         },
@@ -157,6 +157,9 @@ define(function (require, exports, module) {
 
             console.dir(data);
         },
+        /**
+         *
+         */
         load: function () {
             var self = this,
                 data = core.getData() || {};

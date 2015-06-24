@@ -38,31 +38,28 @@ define(function (require, exports, module) {
             this.v.preview = new PreviewView({collection: this.collection});
 
             this.listenTo(this.collection, 'add',    this.render);
-            this.listenTo(this.collection, 'reset',  this.addAll);
-            this.listenTo(this.collection, 'remove', this.removeOne);
+            this.listenTo(this.collection, 'reset',  this.showLatest);
+            this.listenTo(this.collection, 'remove', this.showLatest);
         },
         render: function (model) {
             _currentIndex = this.collection.indexOf(model);
-            
             this.$bg.val(model.get('bg'));
             this.$still.val(model.get('still'));
             this.$camera.val(model.get('camera'));
             this.$effect.val(model.get('effect'));
-
             this._checkDisplay();
-
-            this.v.preview.render(model);
 
             return this;
         },
-        addAll: function () {
-            this.render(this.collection.last());
+        show: function (model) {
+            this.render(model);
+            this.v.preview.render(model);
         },
-        removeOne: function () {
+        showLatest: function () {
             var model = this.collection.last();
 
             if (model) {
-                this.render(model);
+                this.show(model);
             }
             this._checkDisplay();
         },
