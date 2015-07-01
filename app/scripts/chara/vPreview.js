@@ -20,8 +20,8 @@ define(function (require, exports, module) {
         initialize: function() {
             this.$el.html(util.template.build(this.templateName));
             this.$charaImg = this.$el.find('.js-character-img');
+            this.$action = this.$el.find('.js-character-action');
             this.$baloon = this.$el.find('.js-balloon');
-
             this.bindEvent();
         },
         
@@ -53,7 +53,7 @@ define(function (require, exports, module) {
 
             this.$charaImg.html(html);
             this.$el.attr('style', 'transform: translate(' + model.get('position') + 'px, 0);');
-            this.$el.attr('data-action', model.get('action'));
+            this.$action.attr('data-type', model.get('action'));
             this.$baloon.attr('data-type', model.get('balloon'));
 
             return this;
