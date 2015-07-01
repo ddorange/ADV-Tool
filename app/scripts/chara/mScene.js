@@ -9,11 +9,11 @@ define(function (require, exports, module) {
         defaults: function () {
             return  {
                 visible:    false,
-                transform:  null,
+                transform:  'NONE',
                 position:   0,
-                skin:       null,
-                action:     null,
-                balloon:    null
+                skin:       'NONE',
+                action:     'NONE',
+                balloon:    'NONE'
             };
         },
         setTransform: function (type) {

@@ -2,19 +2,18 @@ define(function (require, exports, module) {
 
     'use strict';
 
-    var Backbone = require('backbone'),
+    var core = require('core/index'),
         util = require('util');
 
-    /**
-     * Chara Preview View Class
-     *
+   /**
+     * Character Preview View Class
      */
-    var PreviewView = Backbone.View.extend({
+    var Preview = core.View.ListPresentationView.extend({
         
         tagName:  'div',
         className: 'character absolute',
         templateName: 'tp_previewChara',
-
+        
         $charaImg: null,
         $baloon: null,
 
@@ -23,39 +22,41 @@ define(function (require, exports, module) {
             this.$charaImg = this.$el.find('.js-character-img');
             this.$baloon = this.$el.find('.js-balloon');
 
+            this.bindEvent();
+        },
+        
+        bindEvent: function () {
             this.listenTo(this.collection, 'change', this.render);
             this.listenTo(this.collection, 'add',    this.render);
-            this.listenTo(this.collection, 'reset',  this.showLatest);
             this.listenTo(this.collection, 'remove', this.showLatest);
+            this.listenTo(this.collection, 'reset',  this.showLatest);
         },
+        
         render: function (model) {
-            var data = model.attributes;
+            var pId  = model.get('profileId'),
+                skin = model.get('skin'),
+                html = '';
 
-            if (data.visible) {
+            if (model.get('visible')) {
                 this.$el.removeClass('hide');
             } else {
                 this.$el.addClass('hide');
             }
 
-            // 画像を設定する
-            var html = '<img src="/img/chara/' + data.profileId + '/' + data.base + '.png">';
-            if (data.skin && data.skin !== 'none') {
-                html += '<img src="/img/chara/' + data.profileId + '/' + data.skin + '.png">';
+            // ベース画像を設定
+            html += '<img src="/img/chara/' + pId + '/' + model.get('base') + '.png">';
+            
+            // スキン画像を設定
+            if (skin && skin !== 'NONE') {
+                html += '<img src="/img/chara/' + pId + '/' + skin + '.png">';
             }
-            this.$charaImg.html(html);
 
+            this.$charaImg.html(html);
             this.$el.attr('style', 'transform: translate(' + model.get('position') + 'px, 0);');
             this.$el.attr('data-action', model.get('action'));
             this.$baloon.attr('data-type', model.get('balloon'));
 
             return this;
-        },
-        empty: function () {
-            this.$el.addClass('hide');
-            this.$charaImg.empty();
-            this.$el.attr('style', '');
-            this.$el.attr('data-action', 'NONE');
-            this.$baloon.attr('data-type', 'NONE');
         },
         /**
          * 最新のシーンを表示する
@@ -64,11 +65,15 @@ define(function (require, exports, module) {
             if (this.collection.length > 0) {
                 this.render(this.collection.last());
             } else {
-                this.empty();
+                this.$el.addClass('hide');
+                this.$charaImg.empty();
+                this.$el.attr('style', '');
+                this.$el.attr('data-action', 'NONE');
+                this.$baloon.attr('data-type', 'NONE');
             }
         }
     });
 
-    return PreviewView;
+    return Preview;
 
 });

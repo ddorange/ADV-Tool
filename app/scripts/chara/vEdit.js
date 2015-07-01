@@ -3,78 +3,41 @@ define(function (require, exports, module) {
     'use strict';
 
     var core = require('core/index'),
-        util = require('util'),
-        Backbone = require('backbone');
+        util = require('util');
 
-
-    // private
-    var _currentIndex = 0; // 現在表示しているmodelのインデックス
-
-     /**
-     * Chara Edit View Class
+    /**
+     * Chatacter Edit View Class
      */
-    var CharaSceneEditView = Backbone.View.extend({
-
+    var Edit = core.View.ListPresentationView.extend({
+        
         tagName:  'li',
         templateName: 'tp_editChara',
-
-        v: {},
-
+        
         events: {
-            'change .js-select': 'onChangeSelect',
+            'change .js-select':            'handleFrom',
+            'change .js-select-transform':  'handleSelectTransform'
         },
 
-        initialize: function() {
-            this.listenTo(this.collection, 'add',    this.render);
-            this.listenTo(this.collection, 'reset',  this.showLatest);
-            this.listenTo(this.collection, 'remove', this.showLatest);
-            this._checkDisplay();
-        },
         render: function (model) {
-            var charaProfileDate = core.getCharacterProfile(model.get('profileId')), // キャラのSkin画像を取得する
-                data = _.extend(charaProfileDate, model.attributes);
+            var pId = model.get('profileId'),
+                data = core.getCharacterProfile(pId);
 
-            _currentIndex = this.collection.indexOf(model);
             this.$el.html(util.template.build(this.templateName, data));
-            
-            this._checkDisplay();
+
+            this.$el.find('#js-chara-transform').val(model.get('transform'));
+            this.$el.find('#js-chara-position').val(model.get('position'));
+            this.$el.find('#js-chara-skin').val(model.get('skin'));
+            this.$el.find('#js-chara-action').val(model.get('action'));
+            this.$el.find('#js-chara-balloon').val(model.get('balloon'));
 
             return this;
         },
-        /**
-         * 最新のシーンを表示する
-         */
-        showLatest: function () {
-            if (this.collection.length > 0) {
-                this.render(this.collection.last());
-            }
-            this._checkDisplay();
-        },
-        /**
-         * form要素のハンドリング
-         */
-        onChangeSelect: function (e) {
-            var $cTarget = $(e.currentTarget),
-                key = $cTarget.attr('name'),
-                val  = $cTarget.val();
-
-            if (key === 'transform') {
-                this.collection.models[_currentIndex].setTransform(val);
-            } else {
-                this.collection.models[_currentIndex].set(key, val);
-            }
-        },
-        /**
-         * collectionに要素が一つもないときは表示しない
-         */
-        _checkDisplay: function () {
-            if (this.collection.length < 1) {
-                this.$el.addClass('hide');
-            } else {
-                this.$el.removeClass('hide');
-            }
+        
+        handleSelectTransform: function (e) {
+            this.collection.models[this._currentIndex].setTransform($(e.currentTarget).val());
         }
     });
 
-    return CharaSceneEditView;
+    return Edit;
+
 });

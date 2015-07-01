@@ -193,7 +193,7 @@
             <div class="form-group">
                 <label class="col-sm-5 control-label">Transform</label>
                 <div class="col-sm-5">
-                    <select class="js-select form-control input-sm" name="transform">
+                    <select id="js-chara-transform" class="js-select-transform form-control input-sm" name="transform">
                             <option value="NONE">なし</option>
                             <option value="SHOW">show</option>
                             <option value="HIDE">hide</option>
@@ -209,7 +209,7 @@
             <div class="form-group">
                 <label class="col-sm-5 control-label">Positon</label>
                 <div class="col-sm-5">
-                    <select class="js-select form-control input-sm" name="position">
+                    <select id="js-chara-position" class="js-select form-control input-sm" name="position">
                             <option value="0">0</option>
                             <option value="-100">-100</option>
                             <option value="100">100</option>
@@ -221,12 +221,11 @@
             <div class="form-group">
                 <label class="col-sm-5 control-label">Skin</label>
                 <div class="col-sm-5">
-                    <select class="js-select form-control input-sm" name="skin">
-                            <option value="none">なし</option>
-                            <option value="angry">angry</option>
-                            <option value="embarrassed">embarrassed</option>
-                            <option value="sad">sad</option>
-                            <option value="smile">smile</option>
+                    <select id="js-chara-skin" class="js-select form-control input-sm" name="skin">
+                            <option value="NONE">なし</option>
+                            {{#each skin}}
+                                <option value="{{this}}">{{this}}</option>
+                            {{/each}}
                     </select>
                 </div>
             </div>
@@ -235,8 +234,13 @@
             <div class="form-group">
                 <label class="col-sm-5 control-label">Action</label>
                 <div class="col-sm-5">
-                    <select class="js-select form-control input-sm" name="action">
-                            <option value="0">0</option>
+                    <select id="js-chara-action" class="js-select form-control input-sm" name="action">
+                            <option value="NONE">なし</option>
+                            <option value="SCALE_UP">近づく</option>
+                            <option value="HOP">飛び跳ねる</option>
+                            <option value="SHAKE">震える</option>
+                            <option value="FEEL_DOWN">落ち込む</option>
+                            <option value="SURPRISED">驚く</option>
                     </select>
                 </div>
             </div>
@@ -245,8 +249,16 @@
             <div class="form-group">
                 <label class="col-sm-5 control-label">Balloon</label>
                 <div class="col-sm-5">
-                    <select class="js-select form-control input-sm" name="balloon">
-                            <option value="0">0</option>
+                    <select id="js-chara-balloon" class="js-select form-control input-sm" name="balloon">
+                            <option value="NONE">なし</option>
+                            <option value="QUESTION">疑問</option>
+                            <option value="SURPRISED">びっくり</option>
+                            <option value="ANGRY">怒り</option>
+                            <option value="SLEEP">眠り</option>
+                            <option value="FAN">ワイワイ</option>
+                            <option value="SAD">悲しみ</option>
+                            <option value="SWRAT">焦り</option>
+                            <option value="FLASH">キラッ</option>
                     </select>
                 </div>
             </div>
