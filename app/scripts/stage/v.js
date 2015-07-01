@@ -65,14 +65,13 @@ define(function (require, exports, module) {
             this.bindEvent();
         },
         bindEvent: function () {
+            this.listenTo(this.collection, 'change', this.render);
             this.listenTo(this.collection, 'add',    this.render);
             this.listenTo(this.collection, 'remove', this.showLatest);
             this.listenTo(this.collection, 'reset',  this.showLatest);
-            this.listenTo(this.collection, 'change', this.render);
         },
         render: function (model) {
-            var camera = model.get('camera'),
-                _setBg = function ($el, path, src) {
+            var settleBg = function ($el, path, src) {
                     if (src　&& src !=='none') {
                         $el.attr('style', 'background-image: url(' + path + src +'.jpg);');
                     } else {
@@ -80,9 +79,9 @@ define(function (require, exports, module) {
                     }
                 };
 
-            _setBg(this.$bg, '/img/bg/', model.get('bg'));
-            _setBg(this.$still, '/img/still/', model.get('still'));
-            this.$camera.attr('style', 'transform: translate(' + camera + 'px, 0);');
+            settleBg(this.$bg, '/img/bg/', model.get('bg'));
+            settleBg(this.$still, '/img/still/', model.get('still'));
+            this.$camera.attr('style', 'transform: translate(' + model.get('camera') + 'px, 0);');
             this.$effect.attr('data-type', model.get('effect'));
 
             return this;
