@@ -23,8 +23,14 @@ define(function (require, exports, module) {
         initialize: function() {
             this.bindEvent();
         },
-        render: function () {
-            return this;
+        /**
+         * イベントの購読を設定する
+         */
+        bindEvent: function () {
+            this.listenTo(this.collection, 'change', this.show);
+            this.listenTo(this.collection, 'add',    this.show);
+            this.listenTo(this.collection, 'reset',  this.showLatest);
+            this.listenTo(this.collection, 'remove', this.showLatest);
         },
         /**
          * 任意のモデルのシーンを表示する
@@ -53,28 +59,9 @@ define(function (require, exports, module) {
                 val  = $cTarget.val();
             
             this.collection.at(this._currentIndex).set(key, val);
-        },
-        /**
-         * イベントの購読を設定する
-         */
-        bindEvent: function () {
-            this.listenTo(this.collection, 'add',    this.show);
-            this.listenTo(this.collection, 'reset',  this.showLatest);
-            this.listenTo(this.collection, 'remove', this.showLatest);
-            this.listenTo(this.collection, 'change', this.show);
-        },
-        /**
-         * サブビューを生成する
-         * @params {Object} view
-         */
-        createSubView: function (view, params) {
-            var self = this;
-
-            _.each(view, function (View, name) {
-                self.vSub[name] = new View(params);
-            });
         }
     });
 
     return ListPresentationView;
+
 });
