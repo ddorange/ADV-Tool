@@ -54,10 +54,15 @@ define(function (require, exports, module) {
          * シーンを追加する
          */
         onAdd: function () {
-            var index = this.$sceneIndexList.find('.active').attr('data-index');
+            var $currentIndexEl = this.$sceneIndexList.find('.active'),
+                index = 0,
+                option = {};
 
-            index = (index)? parseInt(index, 10) + 1: 0;
-            this.trigger('ADD_SCENE', index);
+            if (!_.isEmpty($currentIndexEl)) {
+                index = parseInt($currentIndexEl.attr('data-index'), 10) + 1;
+                option.copy = true;
+            }
+            this.trigger('ADD_SCENE', index, option);
         },
         /**
          * シーンを削除する

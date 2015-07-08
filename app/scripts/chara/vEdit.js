@@ -11,30 +11,52 @@ define(function (require, exports, module) {
     var Edit = core.View.ListPresentationView.extend({
         
         tagName:  'li',
+        className: 'hide',
         templateName: 'tp_editChara',
         
         events: {
-            'change .js-select':            'handleFrom',
-            'change .js-select-transform':  'handleSelectTransform'
+            'change .js-select':    'handleFrom',
+            'change .js-visible':   'handleVisible',
+            'change .js-transform': 'handleTransform'
+        },
+
+        initialize: function() {
+            var data = core.getCharacterProfile(this.$el.attr('data-profileId'));
+
+            this.$el.html(util.template.build(this.templateName, data));
+            
+            this.$visible = this.$el.find('.js-visible');
+            this.$transform = this.$el.find('.js-transform');
+            this.$pos = this.$el.find('.js-position');
+            this.$skin = this.$el.find('.js-skin');
+            this.$action = this.$el.find('.js-action');
+            this.$balloon = this.$el.find('.js-balloon');
+            
+            this.bindEvent();
         },
 
         render: function (model) {
-            var pId = model.get('profileId'),
-                data = core.getCharacterProfile(pId);
+            var bool = model.get('visible');
 
-            this.$el.html(util.template.build(this.templateName, data));
-
-            this.$el.find('#js-chara-transform').val(model.get('transform'));
-            this.$el.find('#js-chara-position').val(model.get('position'));
-            this.$el.find('#js-chara-skin').val(model.get('skin'));
-            this.$el.find('#js-chara-action').val(model.get('action'));
-            this.$el.find('#js-chara-balloon').val(model.get('balloon'));
+            this.$el.removeClass('hide');
+            this.$visible.prop('checked', bool);
+            this.$transform.val(model.get('transform'));
+            this.$pos.val(model.get('position'));
+            this.$skin.val(model.get('skin'));
+            this.$action.val(model.get('action'));
+            this.$balloon.val(model.get('balloon'));
 
             return this;
         },
-        
-        handleSelectTransform: function (e) {
-            this.collection.models[this._currentIndex].setTransform($(e.currentTarget).val());
+        handleVisible: function () {
+            if (this.$visible.prop('checked')) {
+                this.collection.models[this._currentIndex].activateVisible();
+            } else {
+                this.collection.models[this._currentIndex].deactivateVisible();
+            }
+        },
+        handleTransform: function () {
+            this.collection.models[this._currentIndex].setTransform(this.$transform.val());
         }
     });
 

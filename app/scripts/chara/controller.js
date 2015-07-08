@@ -47,19 +47,16 @@ define(function (require, exports, module) {
          * 
          */
         register: function (model) {
-            var id = model.get('id');
+            var id = model.get('id'),
+                pId = model.get('profileId');
 
             this.c[id] = new SceneCollection();
             this.v[id] = {
-                edit:    new EditView({ collection: this.c[id] }),
+                edit:    new EditView({ collection: this.c[id], attributes: {'data-profileId': pId} }),
                 preview: new PreviewView({ collection: this.c[id] })
             };
             this.$editContainer.append(this.v[id].edit.$el);
             this.$previewContainer.append(this.v[id].preview.$el);
-
-
-            // シーンの追加・削除イベントを監視する
-
             this.trigger('REGISTER', id);
         },
         /**
@@ -112,8 +109,8 @@ define(function (require, exports, module) {
         show: function (id, cid) {
             var m = this.c[id].get(cid);
 
-            this.v[id].edit.render(m);
-            this.v[id].preview.render(m);
+            this.v[id].edit.show(m);
+            this.v[id].preview.show(m);
         }
 
     }, Backbone.Events);

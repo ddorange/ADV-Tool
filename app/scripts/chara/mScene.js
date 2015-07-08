@@ -38,6 +38,22 @@ define(function (require, exports, module) {
                     this.set('visible', true);
                     break;
             }
+        },
+        activateVisible: function () {
+            var transform = this.get('transform');
+
+            this.set('visible', true);
+            if (transform === 'HIDE' || 'FADE_OUT') {
+                this.set('transform', 'NONE');
+            }
+        },
+        deactivateVisible: function () {
+            var transform = this.get('transform');
+
+            this.set('visible', false);
+            if (transform === 'SHOW' || 'FADE_IN') {
+                this.set('transform', 'NONE');
+            }
         }
     });
 
