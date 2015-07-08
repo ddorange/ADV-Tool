@@ -77,21 +77,37 @@ define(function (require, exports, module) {
         },
         /**
          * シーンを追加する
-         * @params {Int}    index: 追加するシーンのインデックス
-         * @params {Object} option:
+         * @params {Int}    index:  追加するシーンのインデックス
+         * @params {Object} option: 
+         *              chara:  
+         *              stage:  
+         *              word:   
+         *              copy:   前のシーンをコピーするかのフラグ
          */
         addScene: function (index, option) {
-            var scene     = {},
-                opt       = option || {},
-                charaData = opt.chara || {},
-                stageData = opt.stage || {},
-                wordData  = opt.stage || {};
+            var self         = this,
+                scene        = {},
+                opt          = option || {},
+                charaData    = opt.chara || {},
+                stageData    = opt.stage || {},
+                wordData     = opt.stage || {},
+                mBeforeScene = this.c.scene.at(index - 1);
+
+            if (opt.copy) {
+                _.extend(stageData, this.c.stage.get(mBeforeScene.get('stage')).attributes);
+            }
 
             // 追加した各モデルのcidをシーンのモデルに持たせる
             charaController.getAllRegistered().each(function (model) {
-                var id    = model.get('id');
+                var id = model.get('id'),
+                    m;
 
-                scene[id] = charaController.createScene(id, charaData[id]).cid;
+                if (opt.copy) {
+                    m = charaController.copyScene(id, mBeforeScene.get(id));
+                } else {
+                    m = charaController.createScene(id, charaData[id]);
+                }
+                scene[id] = m.cid;
             });
             scene.stage = this.c.stage.add(stageData).cid;
             scene.word  = this.c.word.add(wordData).cid;

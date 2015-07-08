@@ -93,6 +93,16 @@ define(function (require, exports, module) {
 
             return this.c[id].add(data);
         },
+        /**
+         * 前のシーンをコピーする
+         */
+        copyScene: function (id, cid) {
+            var data = _.extend({}, this.c[id].get(cid).attributes);
+
+            data.transform = 'NONE';
+
+            return this.c[id].add(data);
+        },
         removeScene: function (id, cid) {
             this.c[id].remove(cid);
         },
