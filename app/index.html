@@ -189,11 +189,20 @@
     <div class="panel-heading">キャラ名</div>
     <div class="panel-body">
         <form class="form-horizontal">
+
+            <!-- // visible -->
+            <div class="form-group">
+                <label class="col-sm-5 control-label">Visible</label>
+                <div class="col-sm-5">
+                    <input class="js-visible form-control input-sm" type="checkbox" name="visible">
+                </div>
+            </div>
+
             <!-- // transform -->
             <div class="form-group">
                 <label class="col-sm-5 control-label">Transform</label>
                 <div class="col-sm-5">
-                    <select id="js-chara-transform" class="js-select-transform form-control input-sm" name="transform">
+                    <select class="js-transform form-control input-sm" name="transform">
                             <option value="NONE">なし</option>
                             <option value="SHOW">show</option>
                             <option value="HIDE">hide</option>
@@ -209,7 +218,7 @@
             <div class="form-group">
                 <label class="col-sm-5 control-label">Positon</label>
                 <div class="col-sm-5">
-                    <select id="js-chara-position" class="js-select form-control input-sm" name="position">
+                    <select class="js-position js-select form-control input-sm" name="position">
                             <option value="0">0</option>
                             <option value="-100">-100</option>
                             <option value="100">100</option>
@@ -221,7 +230,7 @@
             <div class="form-group">
                 <label class="col-sm-5 control-label">Skin</label>
                 <div class="col-sm-5">
-                    <select id="js-chara-skin" class="js-select form-control input-sm" name="skin">
+                    <select class="js-skin js-select form-control input-sm" name="skin">
                             <option value="NONE">なし</option>
                             {{#each skin}}
                                 <option value="{{this}}">{{this}}</option>
@@ -234,7 +243,7 @@
             <div class="form-group">
                 <label class="col-sm-5 control-label">Action</label>
                 <div class="col-sm-5">
-                    <select id="js-chara-action" class="js-select form-control input-sm" name="action">
+                    <select class="js-action js-select form-control input-sm" name="action">
                             <option value="NONE">なし</option>
                             <option value="SCALE_UP">近づく</option>
                             <option value="HOP">飛び跳ねる</option>
@@ -249,7 +258,7 @@
             <div class="form-group">
                 <label class="col-sm-5 control-label">Balloon</label>
                 <div class="col-sm-5">
-                    <select id="js-chara-balloon" class="js-select form-control input-sm" name="balloon">
+                    <select class="js-balloon js-select form-control input-sm" name="balloon">
                             <option value="NONE">なし</option>
                             <option value="QUESTION">疑問</option>
                             <option value="SURPRISED">びっくり</option>
